@@ -1,0 +1,28 @@
+Resources:
+  MyInstance:
+    Type: AWS::EC2::Instance    
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-0aa7d40eeae50c9a9
+      Tags:
+        - Key: "Name"
+          Value: !Join
+            - " "
+            - - "My Instance in"
+              - !Ref AWS::Region #Pseudo Parameter
+      SecurityGroups: 
+        - !Ref mySG
+
+  mySG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow ssh & http 
+      SecurityGroupIngress:
+       - IpProtocol: tcp
+         FromPort: 80
+         ToPort: 80
+         CidrIp: 0.0.0.0/0
+       - IpProtocol: tcp
+         FromPort: 22
+         ToPort: 22
+         CidrIp: 0.0.0.0/0
