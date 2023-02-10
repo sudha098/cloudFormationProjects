@@ -1,0 +1,24 @@
+Mappings: 
+  AMIRegionMap: 
+    us-east-1: 
+      "AMI": "ami-0aa7d40eeae50c9a9"
+    us-west-1: 
+      "AMI": "ami-0bdb828fd58c52235"
+    eu-west-1: 
+      "AMI": "ami-047bb4163c506cd98"
+    ap-southeast-1: 
+      "AMI": "ami-08569b978cc4dfa10"
+    ap-northeast-1: 
+      "AMI": "ami-06cd52961ce9f0d85"
+Resources:
+  MyInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: !FindInMap 
+        - AMIRegionMap
+        - !Ref AWS::Region
+        - AMI
+      Tags:
+        - Key: "Name"
+          Value: !Join ["-", [my, instance, from, cloud, formation]]
